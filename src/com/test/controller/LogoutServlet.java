@@ -31,6 +31,18 @@ public class LogoutServlet extends HttpServlet {
         final HttpSession session = request.getSession();
         session.invalidate();
 
+        // if (session == null || session.getAttribute("userid") == null) {
+        // response.sendRedirect("login.jsp"); // No logged-in user found, so redirect to login page.
+        // }
+        // else {
+        // response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+        // response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+        // response.setDateHeader("Expires", 0);
+        // // chain.doFilter(req, res);
+        // }
+
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+
         out.print("You are successfully logged out!");
 
         out.close();

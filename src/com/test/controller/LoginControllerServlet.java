@@ -43,6 +43,8 @@ public class LoginControllerServlet extends HttpServlet {
             final HttpSession session = req.getSession();
             session.setAttribute("userid", uid);
 
+            resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+
             if (!(list.isEmpty())) {
                 out.print("<h1 align='center'>Congrats!You've SuccessFully Logged In</h1>");
                 out.print("<table align ='center' border='1' cellspacing='5' cellpadding='5'><tr><th>ID</th><th>NAME</th><th>Password</th><th>Email</th></tr>");
@@ -59,6 +61,9 @@ public class LoginControllerServlet extends HttpServlet {
                     .include(req, resp);
 
                 req.getRequestDispatcher("crud.jsp")
+                    .include(req, resp);
+
+                req.getRequestDispatcher("photoUpload.jsp")
                     .include(req, resp);
             }
             else {

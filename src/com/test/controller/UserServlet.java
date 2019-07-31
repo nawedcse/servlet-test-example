@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package com.test.controller;
 
@@ -21,6 +21,7 @@ import com.test.model.User;
 public class UserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UserDAO userDAO;
+    private List<User> listUser;
 
     @Override
     public void init() {
@@ -29,7 +30,10 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
+        // doGet(request, response);
+        request.setAttribute("listUser", this.listUser);
+        final RequestDispatcher rd = request.getRequestDispatcher("excelreport.jsp");
+        rd.forward(request, response);
     }
 
     @Override
@@ -61,13 +65,18 @@ public class UserServlet extends HttpServlet {
         catch (final SQLException ex) {
             throw new ServletException(ex);
         }
+
     }
 
     private void listUser(final HttpServletRequest request, final HttpServletResponse response) throws SQLException, IOException, ServletException {
-        final List<User> listUser = this.userDAO.selectAllUsers();
-        request.setAttribute("listUser", listUser);
+        this.listUser = this.userDAO.selectAllUsers();
+        request.setAttribute("listUser", this.listUser);
+        // response.sendRedirect("excelreport.jsp");
         final RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
         dispatcher.forward(request, response);
+        // final RequestDispatcher rd = request.getRequestDispatcher("excelreport.jsp");
+        // rd.forward(request, response);
+
     }
 
     private void showNewForm(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
